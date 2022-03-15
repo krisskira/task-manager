@@ -7,17 +7,20 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { FC, SyntheticEvent } from "react";
+import { FC, SyntheticEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { EditTaskFormTarget } from "./edit-task-form.interface";
+import { TaskStatusEntity } from "../../../core/entities/task.entity";
+import {
+    EditTaskFormProps,
+    EditTaskFormTarget,
+} from "./edit-task-form.interface";
 
-export const EditTaskForm: FC = () => {
-
-    const taskStatus = [
+export const EditTaskForm: FC<EditTaskFormProps> = ({ task }) => {
+    const taskStatus: TaskStatusEntity[] = [
         { id: "toDo", text: "To Do", canShow: ["inProgress"] },
         { id: "inProgress", text: "In Progress", canShow: ["blocked", "inQA"] },
         { id: "inQA", text: "In QA", canShow: ["toDo", "done"] },
-        { id: "blocked", text: "Blocked" },
+        { id: "blocked", text: "Blocked", canShow: ["toDo"] },
         { id: "done", text: "Done", canShow: ["inProgress"] },
         { id: "deployed", text: "Deployed", canShow: [] },
     ];
@@ -31,9 +34,13 @@ export const EditTaskForm: FC = () => {
     const onSubmitTaskForm = (event: SyntheticEvent) => {
         event.preventDefault();
         const target = event.target as typeof event.target & EditTaskFormTarget;
-        console.log("***-> Form Content: ",target);
+        console.log("***-> Form Content: ", target);
         navigate("/");
     };
+
+    useEffect(() => {
+        console.log(task);
+    }, [task]);
 
     return (
         <Container maxWidth="md">
