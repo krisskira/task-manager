@@ -1,22 +1,11 @@
-import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { FC } from "react";
-import { TaskEntity } from "../../../core/entities/task.entity";
+import { useTask } from "../../../core/hooks/useTask.hook";
 import { TaskCard } from "./task-card";
 
 export const TasksScrollingList: FC = () => {
     const theme = useTheme();
-    const tasks = Array(100)
-        .fill(100)
-        .map<TaskEntity>((_, i) => ({
-            id: "" + i,
-            title: `Title: ` + i,
-            description: "adsd asdasd asdas asda asdasd asdasda adsa sASf asdfa SDADF ASFDadsA" + 1,
-            status: {
-                id: "1" + i,
-                text: "In Progress",
-                canShow: [],
-            },
-        }));
+    const { tasks } = useTask();
     return (
         <Box
             sx={{
@@ -52,14 +41,19 @@ export const TasksScrollingList: FC = () => {
                     backgroundColor: theme.palette.primary.light,
                 }}
             >
-                    <Grid container spacing={1} rowSpacing={2} justifyContent="center">
-                        {tasks.map((task) => (
-                            <Grid key={task.id} item xs md={3} lg={2} xl={1} >
-                                <TaskCard task={task} />
-                            </Grid>
-                        ))}
-                    </Grid>
-                    <Box sx={{height: 16}} />
+                <Grid
+                    container
+                    spacing={1}
+                    rowSpacing={2}
+                    justifyContent="center"
+                >
+                    {tasks.map((task) => (
+                        <Grid key={task.id} item xs md={3} lg={2} xl={1}>
+                            <TaskCard task={task} />
+                        </Grid>
+                    ))}
+                </Grid>
+                <Box sx={{ height: 16 }} />
             </Box>
         </Box>
     );
