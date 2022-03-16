@@ -2,10 +2,11 @@ import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { FC } from "react";
 import { useTask } from "../../../core/hooks/useTask.hook";
 import { TaskCard } from "./task-card";
+import { TaskListEmptyMessage } from "./task-list-empty-message";
 
 export const TasksScrollingList: FC = () => {
     const theme = useTheme();
-    const { tasks } = useTask();
+    const { tasks, handleRenderTasks } = useTask();
     return (
         <Box
             sx={{
@@ -41,18 +42,21 @@ export const TasksScrollingList: FC = () => {
                     backgroundColor: theme.palette.primary.light,
                 }}
             >
-                <Grid
-                    container
-                    spacing={1}
-                    rowSpacing={2}
-                    justifyContent="center"
-                >
-                    {tasks.map((task) => (
-                        <Grid key={task.id} item xs md={3} lg={2} xl={1}>
-                            <TaskCard task={task} />
-                        </Grid>
-                    ))}
-                </Grid>
+                {handleRenderTasks(
+                    <TaskListEmptyMessage />,
+                    <Grid
+                        container
+                        spacing={1}
+                        rowSpacing={2}
+                        justifyContent="center"
+                    >
+                        {tasks.map((task) => (
+                            <Grid key={task.id} item xs md={3} lg={2} xl={1}>
+                                <TaskCard task={task} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                )}
                 <Box sx={{ height: 16 }} />
             </Box>
         </Box>
