@@ -1,5 +1,10 @@
 {
   "name": "task-management",
+  "author": {
+    "name": "Crhistian David Vergara Gomez",
+    "email": "krisskira@gmail.com",
+    "url": "https://co.linkedin.com/in/cristian-david-vergara-gomez"
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {

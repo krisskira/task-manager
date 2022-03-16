@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { AppLayout } from "../../components/molecules/app-layout/app-layout";
 import { AddTaskForm } from "../../components/molecules/add-task-form/add-task-form";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import { TasksScrollingList } from "../../components/molecules/tasks-scrolling-list/tasks-scrolling-list";
 
 export const HomePage: FC = () => {

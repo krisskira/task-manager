@@ -10,12 +10,13 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { APP_PATHS } from "../../../core/config/router";
 import { TaskCardProps } from "./tasks-list.interface";
 
 export const TaskCard: FC<TaskCardProps> = ({ task }) => {
     const navigate = useNavigate();
     const handleOnClickEdit = () => {
-        navigate("/edit", {
+        navigate(APP_PATHS.taskEditForm, {
             state: task,
         });
     };

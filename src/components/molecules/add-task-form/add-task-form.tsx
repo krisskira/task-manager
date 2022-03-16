@@ -1,6 +1,6 @@
 import { Add } from "@mui/icons-material";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { FC, FormEvent, useRef, useState } from "react";
+import { FC, FormEvent, useRef } from "react";
 import { useTask } from "../../../core/hooks/useTask.hook";
 
 export const AddTaskForm: FC = () => {
@@ -20,7 +20,7 @@ export const AddTaskForm: FC = () => {
 
     return (
         <Container maxWidth="md">
-            <form onSubmit={handlerOnSubmitTaskForm}>
+            <form id="form-add-task" onSubmit={handlerOnSubmitTaskForm}>
                 <Grid paddingTop={2} container direction="column" spacing={2}>
                     <Grid item>
                         <Typography variant="h5">Add a new Task</Typography>
@@ -28,6 +28,7 @@ export const AddTaskForm: FC = () => {
                     <Grid item>
                         <TextField
                             id="task-title"
+                            name="task-title"
                             label="Title"
                             variant="filled"
                             fullWidth
@@ -38,6 +39,7 @@ export const AddTaskForm: FC = () => {
                     <Grid item>
                         <TextField
                             id="task-description"
+                            name="task-description"
                             label="Description"
                             variant="filled"
                             fullWidth

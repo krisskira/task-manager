@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TaskEntity } from "../entities/task.entity";
-import { TASK_MOCK_DATA } from "./data/task.data";
+import { TASK_STATUS_MOCK_DATA } from "./data/task.data";
 
 
 export const useTaskRepository = () => {
@@ -10,6 +10,8 @@ export const useTaskRepository = () => {
 
     const addTask = (task: TaskEntity) => {
         const _tasks = [...tasks, task];
+        const tasksString = JSON.stringify(_tasks);
+        localStorage.setItem(TASK_KEY_STORAGE, tasksString);
         setTask(_tasks);
     };
 
@@ -18,6 +20,8 @@ export const useTaskRepository = () => {
         if (tempTaskIndex < 0) return;
         const _tasks = [...tasks];
         _tasks[tempTaskIndex] = { ...task };
+        const tasksString = JSON.stringify(_tasks);
+        localStorage.setItem(TASK_KEY_STORAGE, tasksString);
         setTask(_tasks);
     };
 
@@ -25,13 +29,7 @@ export const useTaskRepository = () => {
         const tasksString = localStorage.getItem(TASK_KEY_STORAGE) || "[]";
         const taskData = JSON.parse(tasksString) as TaskEntity[];
         setTask(taskData);
-        // setTask(TASK_MOCK_DATA);
     }, []);
 
-    useEffect(() => {
-        const tasksString = JSON.stringify(tasks);
-        localStorage.setItem(TASK_KEY_STORAGE, tasksString);
-    }, [tasks]);
-
-    return { tasks, addTask, updateTask };
+    return { tasks, addTask, updateTask, taskStatuses: TASK_STATUS_MOCK_DATA };
 };

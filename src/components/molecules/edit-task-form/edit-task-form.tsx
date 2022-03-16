@@ -11,51 +11,50 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import {
-    ChangeEventHandler,
-    FC,
-    SyntheticEvent,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { APP_PATHS } from "../../../core/config/router";
 import { TaskStatusEntity } from "../../../core/entities/task.entity";
 import { useTask } from "../../../core/hooks/useTask.hook";
-import {
-    EditTaskFormProps,
-    EditTaskFormTarget,
-} from "./edit-task-form.interface";
+import { EditTaskFormProps } from "./edit-task-form.interface";
 
 export const EditTaskForm: FC<EditTaskFormProps> = ({ task }) => {
     const taskTitleInputRef = useRef<HTMLFormElement>();
     const taskDescriptionInputRef = useRef<HTMLFormElement>();
 
     const [taskStatus, setTaskStatuses] = useState<TaskStatusEntity[]>([]);
-    const [taskStatusSelected, selectTaskSttus] = useState<TaskStatusEntity>();
+    const [taskStatusSelected, selectTaskStatus] = useState<TaskStatusEntity>();
 
     const { getTaskStatusById, updateTask } = useTask();
     const navigate = useNavigate();
 
     const onClickBackButton = () => {
-        navigate("/");
+        navigate(APP_PATHS.taskHome);
     };
 
     const onSubmitTaskForm = (event: SyntheticEvent) => {
         event.preventDefault();
-        const target = event.target as typeof event.target & EditTaskFormTarget;
+
+        const title = taskTitleInputRef.current?.value || task.title;
+        const description =
+            taskDescriptionInputRef.current?.value || task.description;
+        const status = taskStatusSelected || task.status;
+
+        if (!title || !description || !status.id) return;
+
         updateTask?.({
             ...task,
-            title: target["task-title"].value || task.title,
-            description: target["task-description"].value || task.description,
-            status: taskStatusSelected || task.status,
+            title,
+            description,
+            status,
         });
-        navigate("/");
+        navigate(APP_PATHS.taskHome);
     };
 
     const onChangeTaskStatus = (event: SelectChangeEvent) => {
         const statusId = event.target.value;
-        selectTaskSttus(getTaskStatusById(statusId));
+        if (statusId === "*") return;
+        selectTaskStatus(getTaskStatusById(statusId));
     };
 
     useEffect(() => {
@@ -68,7 +67,8 @@ export const EditTaskForm: FC<EditTaskFormProps> = ({ task }) => {
         );
         _taskStatus.push(task.status);
         setTaskStatuses(_taskStatus);
-        selectTaskSttus(task.status);
+        selectTaskStatus(task.status);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -81,6 +81,7 @@ export const EditTaskForm: FC<EditTaskFormProps> = ({ task }) => {
                     <Grid item>
                         <TextField
                             id="task-title"
+                            name="task-title"
                             label="Title"
                             variant="filled"
                             required
@@ -94,6 +95,7 @@ export const EditTaskForm: FC<EditTaskFormProps> = ({ task }) => {
                     <Grid item>
                         <TextField
                             id="task-description"
+                            name="task-description"
                             label="Description of task goes here."
                             variant="filled"
                             required
@@ -115,11 +117,13 @@ export const EditTaskForm: FC<EditTaskFormProps> = ({ task }) => {
                             <Select
                                 labelId="task-status-label"
                                 id="task-status"
-                                value={taskStatusSelected?.id || ""}
+                                name="task-status"
+                                value={taskStatusSelected?.id || "*"}
                                 label="Status"
+                                required
                                 onChange={onChangeTaskStatus}
                             >
-                                <MenuItem value="">Select an option</MenuItem>
+                                <MenuItem value="*">Select an option</MenuItem>
                                 {taskStatus.map((option) => (
                                     <MenuItem key={option.id} value={option.id}>
                                         {option.text}
@@ -132,19 +136,21 @@ export const EditTaskForm: FC<EditTaskFormProps> = ({ task }) => {
                         <Grid container direction="row" spacing={2}>
                             <Grid item xs>
                                 <Button
-                                    fullWidth
+                                    id="task-edit-submit-button"
                                     variant="contained"
-                                    startIcon={<Edit />}
                                     type="submit"
+                                    fullWidth
+                                    startIcon={<Edit />}
                                 >
                                     Edit
                                 </Button>
                             </Grid>
                             <Grid item xs>
                                 <Button
-                                    onClick={onClickBackButton}
-                                    fullWidth
+                                    id="task-edit-cancel-button"
                                     variant="outlined"
+                                    fullWidth
+                                    onClick={onClickBackButton}
                                 >
                                     Cancel
                                 </Button>

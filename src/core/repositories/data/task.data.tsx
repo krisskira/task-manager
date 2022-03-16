@@ -24,7 +24,7 @@ export const TASK_STATUS_MOCK_DATA: TaskStatusEntity[] = [
     {
         id: "done",
         text: "Done",
-        canShow: ["inProgress"],
+        canShow: ["deployed"],
     },
     {
         id: "deployed",
@@ -40,6 +40,6 @@ export const TASK_MOCK_DATA = Array(100)
         title: `Lorem Ipsum: ${i}`,
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-        status: TASK_STATUS_MOCK_DATA[Math.ceil(Math.random() * 6)],
+        status: TASK_STATUS_MOCK_DATA[Math.ceil(Math.random() * 5)],
     }));
 
