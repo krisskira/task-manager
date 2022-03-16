@@ -67,7 +67,7 @@ export const TaskCard: FC<TaskCardProps> = ({ task }) => {
                     color="primary"
                 />
                 <Box sx={{ flexGrow: 1 }} />
-                <IconButton onClick={handleOnClickEdit}>
+                <IconButton data-test-edit-task={task.title} onClick={handleOnClickEdit}>
                     <Edit />
                 </IconButton>
             </CardActions>

@@ -15,6 +15,7 @@ export const TaskListEmptyMessage: FC = () => {
                 alignContent: "center",
                 flexDirection: "column",
             }}
+            id="task-list-empty-message"
         >
             <Typography color={theme.palette.common.black} variant="body1">
                 You have nothing to do.

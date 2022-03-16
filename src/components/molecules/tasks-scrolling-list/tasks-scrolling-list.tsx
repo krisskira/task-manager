@@ -9,6 +9,7 @@ export const TasksScrollingList: FC = () => {
     const { tasks, handleRenderTasks } = useTask();
     return (
         <Box
+            id="task-scrolling-list"
             sx={{
                 display: "flex",
                 flexDirection: "column",
