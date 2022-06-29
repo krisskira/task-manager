@@ -10,14 +10,15 @@ export const TASK_INITIAL_STATE: TaskContextProps = {
 export const TaskContext = createContext<TaskContextProps>(TASK_INITIAL_STATE);
 
 export const TaskContextProvider: FC = ({ children }) => {
-    const { tasks, addTask, updateTask, taskStatuses } = useTaskRepository();
+    const { tasks, addTask, updateTask, taskStatuses, filterTasks } = useTaskRepository();
     return (
         <TaskContext.Provider
             value={{
                 tasks,
                 addTask,
                 updateTask,
-                taskStatuses
+                taskStatuses,
+                filterTasks
             }}
         >
             {children}

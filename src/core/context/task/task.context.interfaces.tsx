@@ -5,4 +5,5 @@ export interface TaskContextProps {
     taskStatuses: TaskStatusEntity[];
     addTask?(task: TaskEntity): void;
     updateTask?(task: TaskEntity): void;
+    filterTasks?(taskName: string): void;
 }
